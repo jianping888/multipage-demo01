@@ -35,13 +35,7 @@ cnpm install
 npm run dev //开发环境
 npm run build //生产环境打包
 ```
-文章介绍
 
-### [点击前往](https://segmentfault.com/a/1190000014984842)
-
-### License
-### [MIT](https://github.com/zhouyupeng/webpack4.x_demo/blob/master/LICENSE)
-Copyright (c) 2018-present, ypzhou
 
 更新node到node10.XXX版本node-sass不兼容
 解决方法：www.qianduan.org/post-474.html
