@@ -1,3 +1,17 @@
+// {
+// 	"presets": ["@babel/preset-env"]
+// }
 {
-	"presets": ["@babel/preset-env"]
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "targets": {
+                    "browsers": ["> 1%", "last 2 versions"],
+                    "uglify": true // 在使用 uglify-js 压缩代码时, 由于 uglify-js 不支持任何ES2015+语法，因此浏览器运行时可能会遇到语法错误。为了防止错误发生，将uglify 选项设置为 true ，代码会编译为 ES5 ，
+                }
+            }
+        ]
+    ]
 }
+

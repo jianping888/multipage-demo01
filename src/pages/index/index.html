@@ -1,53 +1,126 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
+
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>this is a tab</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>车辆点位信息</title>
+    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css" />
 </head>
+
 <body>
-	<div id="tab-wrap" class="tabWrap tab-wrap">
-		<div class="tab-hd">
-			<span class="tab-hd-con">选项卡一</span>
-			<span class="tab-hd-con">选项卡二</span>
-			<span class="tab-hd-con">选项卡三</span>
-		</div>
-		<div class="tab-bd">
-			<div class="tab-bd-content">
-				选项卡1111
-			</div>
-			<div class="tab-bd-content">
-				选项卡2222
-			</div>
-			<div class="tab-bd-content">
-				选项卡3333
-			</div>
-		</div>
-	</div>
-	<div id="tab-wrap" class="tab-wrap2">
-		<div class="tab-hd">
-			<span class="tab-hd-con active">选项卡一</span>
-			<span class="tab-hd-con">选项卡二</span>
-			<span class="tab-hd-con">选项卡三</span>
-		</div>
-		<div class="tab-bd">
-			<div class="tab-bd-content">
-				选项卡1111
-			</div>
-			<div class="tab-bd-content">
-				选项卡2222
-			</div>
-			<div class="tab-bd-content">
-				选项卡3333
-			</div>
-		</div>
-	</div>
-	<div class="main">
-		<img src="../../images/zdg.png" alt="" alt="我是图片">
-		<div class="bg">
-			我是背景图00
-		</div>
-	</div>
+    <div id="container" class="map" tabindex="0"></div>
+    
+    <div id="myPageTop">
+        <table>
+            <tr>
+                <td>
+                    <label>实时数据刷新：</label>
+                </td>
+                <td>
+                    <label>车辆总数（单位/辆）：</label>
+                </td>
+                <td>
+                    <label>按关键字搜索：</label>
+                </td>
+                <td>
+                    <label>左击获取经纬度：</label>
+                </td>
+                <td>
+                    <label>聚集点半径（单位/米）：</label>
+                </td>
+                <td>
+                    <label>聚集点半径区域内数量：</label>
+                </td>
+                <td>
+                    <label></label>
+                </td>
+                <td>
+                    <label>聚集点列表：</label>
+                </td>
+                <td>
+                    <label></label>
+                </td>
+                <td>
+                    <label></label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input id="refreshBtn" style="list-style-type:none;outline:none;cursor:pointer;width:80px;background-color: transparent;background-image: none;color: #25A5F7;border:1px solid #25A5F7;border-radius: 10px;" type="button" value="启动">
+                </td>
+                <td>
+                    <input type="text" readonly="true" id="allCarNum">
+                </td>
+                <td>
+                    <input type="text" placeholder="请输入关键字进行搜索" id="tipinput">
+                </td>
+                <td>
+                    <input type="text" readonly="true" id="lnglat">
+                </td>
+                <td>
+                    <input type="text" placeholder="请输入聚集点半径" value=1000 id="distanccePoint">
+                </td>
+                <td>
+                    <input type="text" readonly="true" id="pointCar">
+                </td>
+                <td>
+                    <input id="getCalculate" style="list-style-type:none;outline:none;cursor:pointer;width:80px;background-color: transparent;background-image: none;color: #25A5F7;border:1px solid #25A5F7;border-radius: 10px;" type="button" value="获取车辆">
+                </td>
+                <td>
+                    <select autofocus id="markList">
+                    </select>
+                </td>
+                <td>
+                    <input id="delete" style="list-style-type:none;outline:none;cursor:pointer;width:110px;background-color: transparent;background-image: none;color: #25A5F7;border:1px solid #25A5F7;border-radius: 10px;" type="button" value="删除选中聚集点">
+                </td>
+                <td>
+                    <input id="downLoad" style="list-style-type:none;outline:none;cursor:pointer;width:80px;background-color: transparent;background-image: none;color: #25A5F7;border:1px solid #25A5F7;border-radius: 10px;" type="button" value="下载列表">
+                </td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td>
+                    <label>VIN：</label>
+                </td>
+                <td>
+                    <label>经纬度：</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" placeholder="请输入VIN号" id="vin">
+                </td>
+                <td>
+                    <input type="text" placeholder="请输入经纬度" id="degree">
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="input-card" style='width: 24rem;'>
+        <div class="input-item">
+            <input type="radio" checked name='func' value='marker'><span class="input-text">画点</span>
+            <input type="text" placeholder="请输入聚集点名称" id="addText">
+            <!-- <input type="radio" name='func' value='polyline'><span class="input-text">画折线</span>
+            <input type="radio" name='func' value='polygon'><span class="input-text" style='width:5rem;'>画多边形</span> -->
+        </div>
+        <!-- <div class="input-item">
+            <input type="radio" name='func' value='rectangle'><span class="input-text">画矩形</span>
+            <input type="radio" name='func' value='circle'><span class="input-text">画圆</span>
+        </div> -->
+        <div class="input-item">
+            <input id="clear" type="button" class="btn" value="清除" />
+            <input id="add" type="button" class="btn" value="添加" />
+            <!-- <input id="close" type="button" class="btn" value="关闭绘图" /> -->
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=1589997d1cb98dc870c643c5b8e05677&plugin=AMap.MarkerClusterer,AMap.Autocomplete,AMap.MouseTool"></script>
+    <script src="https://a.amap.com/jsapi_demos/static/china.js"></script>
+
 </body>
 
 </html>

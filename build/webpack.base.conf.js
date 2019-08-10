@@ -13,7 +13,7 @@ let getHtmlConfig = function (name, chunks) {
 	return {
 		template: `./src/pages/${name}/index.html`,
 		filename: `${name}.html`,
-		// favicon: './favicon.ico',
+		favicon: './favicon.ico',
 		// title: title,
 		inject: true,
 		hash: true, //开启hash  ?[hash]
@@ -41,7 +41,9 @@ function getEntry(PAGES_DIR) {
 	})
 	return entry;
 }
-let entrys = getEntry('./src/pages/')
+let entrys = getEntry('./src/pages/');
+// let entrysAddQ=getEntry('./src/pages/');
+// entrysAddQ['jquery']="jquery"
 module.exports = {
 	entry: entrys,
 	module: {
@@ -67,25 +69,31 @@ module.exports = {
 		// 消除冗余的css代码
 		new purifyCssWebpack({
 			paths: glob.sync(path.join(__dirname, "../src/pages/*/*.html"))
-		}),
+		})
 
 	],
 	// webpack4里面移除了commonChunksPulgin插件，放在了config.optimization里面,提取js， vendor名字可改
-	// optimization: {
-	// 	splitChunks: {
-	// 		cacheGroups: {
-	// 			vendor: {
-	// 				// test: /\.js$/,
-	// 				test: path.resolve(__dirname, '../node_modules'),
-	// 				chunks: "initial", //表示显示块的范围，有三个可选值：initial(初始块)、async(按需加载块)、all(全部块)，默认为all;
-	// 				name: "vendor", //拆分出来块的名字(Chunk Names)，默认由块名和hash值自动生成；
-	// 				minChunks: 1,
-	// 				reuseExistingChunk: true,
-	// 				enforce: true
-	// 			}
-	// 		}
-	// 	}
-	// },
+	optimization: {
+		splitChunks: {
+			cacheGroups: {
+				//公用模块抽离
+				common: {
+					chunks: 'initial',
+					minSize: 0, //大于0个字节
+					minChunks: 2, //在分割之前，这个代码块最小应该被引用的次数
+				  },
+				  
+				  //第三方库抽离
+				  vendor: {
+					priority: 1, //权重
+					test: /node_modules/,
+					chunks: 'initial',
+					minSize: 0, //大于0个字节
+					minChunks: 2, //在分割之前，这个代码块最小应该被引用的次数
+				  }
+			}
+		}
+	},
 }
 
 
@@ -95,7 +103,7 @@ Object.keys(entrys).forEach(function (element) {
 	htmlArray.push({
 		_html: element,
 		title: '',
-		chunks: [element]
+		chunks: ['common','vendor',element]
 	})
 })
 

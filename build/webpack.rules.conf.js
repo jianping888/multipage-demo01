@@ -1,5 +1,9 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const devMode = process.env.NODE_ENV !== 'production'
+const path = require('path')
+function resolve (dir) {
+	return path.join(__dirname, '..', dir)
+  }
 const rules = [{
 		test: /\.(css|scss|sass)$/,
 		use: [
@@ -19,8 +23,9 @@ const rules = [{
 	{
 		test: /\.js$/,
 		use: ["babel-loader"],
+		include: [resolve('src')],
 		// 不检查node_modules下的js文件
-		// exclude: "/node_modules/"
+		exclude: "/node_modules/"
 	}, {
 		test: /\.(png|jpg|gif)$/,
 		use: [{
@@ -29,7 +34,8 @@ const rules = [{
 			options: {
 				limit: 5 * 1024, //小于这个时将会已base64位图片打包处理
 				// 图片文件输出的文件夹
-				outputPath: "images"
+				outputPath: "images",
+				name: '[name].[ext]'
 			}
 		}]
 	},

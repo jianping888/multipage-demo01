@@ -14,7 +14,6 @@ const webpackConfigProd = {
 	output: {
 		path: path.resolve(__dirname, '../dist'),
 		// 打包多出口文件
-		// 生成 a.bundle.[hash].js  b.bundle.[hash].js
 		filename: './js/[name].[chunkhash:8].js',
 		publicPath: './'
 	},
@@ -43,7 +42,7 @@ const webpackConfigProd = {
 		new UglifyJSPlugin({
 			uglifyOptions: {
 				compress: {
-					warnings: false,
+					// warnings: false,
 					drop_debugger: false,
 					drop_console: true
 				}
